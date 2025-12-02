@@ -2,7 +2,7 @@
   "name": "tdash-eva-202602",
   "version": "0.0.0",
   "private": true,
-  "homepage": "https://your-username.github.io/tdash-eva-202602",
+  "homepage": "https://valtes-rd.github.io/tdash-eva-202602",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
