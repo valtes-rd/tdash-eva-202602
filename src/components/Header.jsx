@@ -30,7 +30,16 @@ const Header = () => {
         <NavLink className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`} to="/favorites">
           お気に入り
         </NavLink>
-        <button className="button-secondary" onClick={handleLogout} type="button">
+        <button
+          className="nav-link"
+          onClick={handleLogout}
+          type="button"
+          style={{
+            background: 'rgba(255, 255, 255, 0.1)',
+            border: '2px solid rgba(255, 255, 255, 0.3)',
+            marginLeft: '8px'
+          }}
+        >
           ログアウト
         </button>
       </nav>

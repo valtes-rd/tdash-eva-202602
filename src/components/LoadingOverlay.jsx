@@ -6,9 +6,9 @@ const LoadingOverlay = () => {
   if (!loading) return null;
   return (
     <div className="loading-overlay" data-testid="loading-overlay">
-      <div>
+      <div className="loading-content">
         <div className="spinner" />
-        <p style={{ marginTop: 12, fontWeight: 700 }}>通信中です...</p>
+        <p className="loading-text">loading...</p>
       </div>
     </div>
   );

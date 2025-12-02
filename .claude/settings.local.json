@@ -5,7 +5,14 @@
       "Bash(npm install:*)",
       "Bash(npm run deploy:*)",
       "Bash(npx gh-pages:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push)",
+      "Bash(git fetch:*)",
+      "Bash(git checkout:*)",
+      "Bash(git stash:*)",
+      "Bash(git push:*)",
+      "Bash(git branch:*)"
     ],
     "deny": [],
     "ask": []
