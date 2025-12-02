@@ -16,7 +16,7 @@
 - 初期データは `src/data/mockData.js` に定義し、React Stateに読み込みます。ブラウザのメモリのみで管理し、リロードすると初期状態に戻ります。
 - 疑似通信のために `src/data/fakeFetch.js` を利用し、500〜2000msのランダム遅延とローディングオーバーレイを表示します。
 - ルーティングは GitHub Pages 対応の `HashRouter` を使用しています。
-- デプロイ用に `package.json` の `homepage` と `deploy` スクリプト（gh-pages）が設定されています。GitHub Pages の公開先が `valtes-rd/tdash-eva-202602` の場合は既定値のまま利用できます。
+- デプロイ用に `package.json` の `homepage` と `deploy` スクリプト（gh-pages）が設定されています。
 
 ## セットアップ
 ```bash
