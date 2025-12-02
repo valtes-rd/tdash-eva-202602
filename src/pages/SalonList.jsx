@@ -12,9 +12,14 @@ const SalonList = () => {
 
   const filteredSalons = useMemo(
     () =>
-      salons.filter((salon) =>
-        selectedCategory === 'すべて' ? true : salon.category === selectedCategory,
-      ),
+      salons.filter((salon) => {
+        if (selectedCategory === 'すべて') return true;
+        // categoriesがある場合はそれを使用、なければcategoryを使用
+        if (salon.categories) {
+          return salon.categories.includes(selectedCategory);
+        }
+        return salon.category === selectedCategory;
+      }),
     [salons, selectedCategory],
   );
 

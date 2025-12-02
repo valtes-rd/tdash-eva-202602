@@ -110,8 +110,29 @@ export const AppProvider = ({ children }) => {
   const getReservationsBySalonDate = (salonId, date) =>
     state.reservations.filter((r) => r.salonId === salonId && r.date === date);
 
-  const isSlotAvailable = (salon, date) =>
-    salon.timeSlots.some((slot) => !getReservationsBySalonDate(salon.id, date).some((r) => r.time === slot));
+  const isSlotAvailable = (salon, date) => {
+    const dateObj = new Date(date);
+    const dayOfWeek = dateObj.getDay();
+    const dayOfMonth = dateObj.getDate();
+
+    // アグ ヘアサロン: 毎週月曜休み
+    if (salon.closedDay === 1 && dayOfWeek === 1) {
+      return false;
+    }
+
+    // プラージュ: 毎週火曜日11:00のみ空き
+    if (salon.specialRule === 'tuesday-11only') {
+      return dayOfWeek === 2; // Tuesday only
+    }
+
+    // EARTH: 毎月1日は予約でいっぱい
+    if (salon.specialRule === 'first-day-full' && dayOfMonth === 1) {
+      return false;
+    }
+
+    // 通常の予約判定
+    return salon.timeSlots.some((slot) => !getReservationsBySalonDate(salon.id, date).some((r) => r.time === slot));
+  };
 
   const value = useMemo(
     () => ({
