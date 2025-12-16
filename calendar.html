@@ -28,45 +28,41 @@
       font-size: 14px;
       border-bottom: 1px solid #e5e7eb;
     }
-    .calendar-grid {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 1px;
-      background: #e5e7eb;
-      padding: 1px;
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
     }
-    .calendar-day-header {
-      background: #f9fafb;
-      padding: 8px 4px;
+    th, td {
+      border: 1px solid #e5e7eb;
+      padding: 8px;
       text-align: center;
+      vertical-align: middle;
+    }
+    th {
+      background: #f9fafb;
       font-size: 12px;
       font-weight: 600;
       color: #6b7280;
     }
-    .calendar-day {
-      background: white;
-      padding: 8px 4px;
-      min-height: 40px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+    td {
       font-size: 13px;
+      min-height: 40px;
       position: relative;
       cursor: default;
     }
-    .calendar-day.available {
+    td.available {
       background: #dcfce7;
       cursor: pointer;
     }
-    .calendar-day.available:hover {
+    td.available:hover {
       background: #bbf7d0;
     }
-    .calendar-day.unavailable {
+    td.unavailable {
       background: #fee2e2;
       color: #ef4444;
     }
-    .calendar-day.past {
+    td.past {
       background: #f3f4f6;
       color: #9ca3af;
     }
@@ -106,9 +102,14 @@
     <div class="calendar-header">
       <span id="calendar-title">予約可能日</span>
     </div>
-    <div class="calendar-grid" id="calendar-grid">
-      <!-- Calendar will be generated here -->
-    </div>
+    <table id="calendar-table">
+      <thead id="calendar-header">
+        <!-- Header will be generated here -->
+      </thead>
+      <tbody id="calendar-body">
+        <!-- Calendar body will be generated here -->
+      </tbody>
+    </table>
     <div class="legend">
       <div class="legend-item">
         <div class="legend-color" style="background: #dcfce7;"></div>
@@ -158,17 +159,22 @@
 
       document.getElementById('calendar-title').textContent = `${salonName} - 予約可能日（2週間）`;
 
-      const grid = document.getElementById('calendar-grid');
-      grid.innerHTML = '';
+      const headerRow = document.getElementById('calendar-header');
+      const tbody = document.getElementById('calendar-body');
+
+      // Clear existing content
+      headerRow.innerHTML = '';
+      tbody.innerHTML = '';
 
       // Add day headers
       const dayNames = ['日', '月', '火', '水', '木', '金', '土'];
+      const headerTr = document.createElement('tr');
       dayNames.forEach(day => {
-        const header = document.createElement('div');
-        header.className = 'calendar-day-header';
-        header.textContent = day;
-        grid.appendChild(header);
+        const th = document.createElement('th');
+        th.textContent = day;
+        headerTr.appendChild(th);
       });
+      headerRow.appendChild(headerTr);
 
       // Get today's date
       const today = new Date();
@@ -179,50 +185,56 @@
       startDate.setDate(today.getDate() - today.getDay());
 
       // Generate 3 weeks of calendar
-      for (let i = 0; i < 21; i++) {
-        const currentDate = new Date(startDate);
-        currentDate.setDate(startDate.getDate() + i);
+      for (let week = 0; week < 3; week++) {
+        const tr = document.createElement('tr');
 
-        const dateStr = formatDate(currentDate);
-        const dayDiv = document.createElement('div');
-        dayDiv.className = 'calendar-day';
+        for (let day = 0; day < 7; day++) {
+          const i = week * 7 + day;
+          const currentDate = new Date(startDate);
+          currentDate.setDate(startDate.getDate() + i);
 
-        const dayNumber = document.createElement('div');
-        dayNumber.className = 'day-number';
-        dayNumber.textContent = currentDate.getDate();
-        dayDiv.appendChild(dayNumber);
+          const dateStr = formatDate(currentDate);
+          const td = document.createElement('td');
 
-        if (currentDate < today) {
-          dayDiv.classList.add('past');
-          const status = document.createElement('div');
-          status.className = 'day-status';
-          status.textContent = '過去';
-          dayDiv.appendChild(status);
-        } else if (availability[dateStr]) {
-          dayDiv.classList.add('available');
-          const status = document.createElement('div');
-          status.className = 'day-status';
-          status.textContent = '◯';
-          dayDiv.appendChild(status);
-          dayDiv.title = '予約可能';
+          const dayNumber = document.createElement('div');
+          dayNumber.className = 'day-number';
+          dayNumber.textContent = currentDate.getDate();
+          td.appendChild(dayNumber);
 
-          // Send message to parent when clicked
-          dayDiv.addEventListener('click', () => {
-            window.parent.postMessage({
-              type: 'calendar-date-selected',
-              date: dateStr
-            }, '*');
-          });
-        } else if (i < 14) { // Only show unavailable for next 2 weeks
-          dayDiv.classList.add('unavailable');
-          const status = document.createElement('div');
-          status.className = 'day-status';
-          status.textContent = '✕';
-          dayDiv.appendChild(status);
-          dayDiv.title = '予約不可';
+          if (currentDate < today) {
+            td.classList.add('past');
+            const status = document.createElement('div');
+            status.className = 'day-status';
+            status.textContent = '過去';
+            td.appendChild(status);
+          } else if (availability[dateStr]) {
+            td.classList.add('available');
+            const status = document.createElement('div');
+            status.className = 'day-status';
+            status.textContent = '○';
+            td.appendChild(status);
+            td.title = '予約可能';
+
+            // Send message to parent when clicked
+            td.addEventListener('click', () => {
+              window.parent.postMessage({
+                type: 'calendar-date-selected',
+                date: dateStr
+              }, '*');
+            });
+          } else if (i < 14) { // Only show unavailable for next 2 weeks
+            td.classList.add('unavailable');
+            const status = document.createElement('div');
+            status.className = 'day-status';
+            status.textContent = '×';  // Changed from ✕ to × (regular multiplication sign)
+            td.appendChild(status);
+            td.title = '予約不可';
+          }
+
+          tr.appendChild(td);
         }
 
-        grid.appendChild(dayDiv);
+        tbody.appendChild(tr);
       }
     }
 
