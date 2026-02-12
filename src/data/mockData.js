@@ -153,15 +153,6 @@ export const initialReservations = [
     userName: '山田アリス',
   },
   {
-    id: 'res-2',
-    salonId: 'salon-5',
-    userEmail: 'alice@example.com',
-    date: formatDate(new Date(today.getFullYear(), today.getMonth(), today.getDate() + 14)),
-    time: '12:00',
-    menu: 'ネイル',
-    userName: '山田アリス',
-  },
-  {
     id: 'res-3',
     salonId: 'salon-3',
     userEmail: 'bob@example.com',
