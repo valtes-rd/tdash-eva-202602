@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useMemo, useReducer } from 'react';
+import React, { createContext, useContext, useEffect, useMemo, useReducer } from 'react';
 import { fakeFetch } from '../data/fakeFetch';
 import {
   formatDate,
@@ -88,6 +88,15 @@ const reducer = (state, action) => {
       };
       localStorage.setItem(STORAGE_KEYS.RESERVATIONS, JSON.stringify(newState.reservations));
       return newState;
+    case 'SYNC_FROM_STORAGE':
+      // 他タブからの変更を同期
+      return {
+        ...state,
+        user: action.payload.user,
+        isAuthenticated: !!action.payload.user,
+        reservations: action.payload.reservations,
+        favorites: action.payload.favorites,
+      };
     default:
       return state;
   }
@@ -95,6 +104,23 @@ const reducer = (state, action) => {
 
 export const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  // 他タブからのlocalStorage変更を監視
+  useEffect(() => {
+    const handleStorageChange = (event) => {
+      if (
+        event.key === STORAGE_KEYS.USER ||
+        event.key === STORAGE_KEYS.RESERVATIONS ||
+        event.key === STORAGE_KEYS.FAVORITES
+      ) {
+        const newData = loadFromStorage();
+        dispatch({ type: 'SYNC_FROM_STORAGE', payload: newData });
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
 
   const setLoading = (value) => dispatch({ type: 'SET_LOADING', payload: value });
 

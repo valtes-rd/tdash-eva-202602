@@ -105,7 +105,7 @@ export const initialSalons = [
     categories: ['ヘアサロン', 'ネイルサロン', 'エステサロン'],
     description: 'トータルビューティーサロン。11:00, 12:00, 13:00のみ空きがあります。',
     image: import.meta.env.BASE_URL + 'store_screen/air.jpg',
-    menus: ['ヘア', 'ネイル', 'エステ'],
+    menus: ['ヘア', 'ネイル', 'エステ', 'グラデーション'],
     timeSlots: ['11:00', '12:00', '13:00'],
     address: '神奈川県横浜市西区1-1-1',
     phone: '045-000-5555',

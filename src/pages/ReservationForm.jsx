@@ -24,7 +24,7 @@ const ReservationForm = () => {
   const navigate = useNavigate();
 
   const salon = salons.find((s) => s.id === id);
-  usePageTitle(salon ? `${salon.name} - 予約` : '予約');
+  usePageTitle(salon ? salon.name : '予約');
   const defaultDate = searchParams.get('date') || formatDate(new Date());
   const [date, setDate] = useState(defaultDate);
   const [pendingDate, setPendingDate] = useState(toYYYYMMDD(defaultDate));
