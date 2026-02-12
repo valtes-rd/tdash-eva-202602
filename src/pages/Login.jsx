@@ -7,8 +7,8 @@ const Login = () => {
   usePageTitle('ログイン');
   const { login, isAuthenticated } = useAppContext();
   const navigate = useNavigate();
-  const [email, setEmail] = useState('alice@example.com');
-  const [password, setPassword] = useState('alicepassyamada');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {

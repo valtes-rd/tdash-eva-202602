@@ -2,6 +2,7 @@ import React from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import Header from './components/Header';
 import LoadingOverlay from './components/LoadingOverlay';
+import { useAppContext } from './context/AppContext';
 import Favorites from './pages/Favorites';
 import Login from './pages/Login';
 import MyPage from './pages/MyPage';
@@ -9,6 +10,15 @@ import ReservationForm from './pages/ReservationForm';
 import ReservationList from './pages/ReservationList';
 import SalonDetail from './pages/SalonDetail';
 import SalonList from './pages/SalonList';
+
+// 認証が必要なルート用のラッパーコンポーネント
+const ProtectedRoute = ({ children }) => {
+  const { isAuthenticated } = useAppContext();
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+  return children;
+};
 
 const App = () => {
   const location = useLocation();
@@ -19,12 +29,12 @@ const App = () => {
       {!isLoginPage && <Header />}
       <Routes>
         <Route path="/login" element={<Login />} />
-        <Route path="/" element={<SalonList />} />
-        <Route path="/salons/:id" element={<SalonDetail />} />
-        <Route path="/reserve/:id" element={<ReservationForm />} />
-        <Route path="/reservations" element={<ReservationList />} />
-        <Route path="/favorites" element={<Favorites />} />
-        <Route path="/me" element={<MyPage />} />
+        <Route path="/" element={<ProtectedRoute><SalonList /></ProtectedRoute>} />
+        <Route path="/salons/:id" element={<ProtectedRoute><SalonDetail /></ProtectedRoute>} />
+        <Route path="/reserve/:id" element={<ProtectedRoute><ReservationForm /></ProtectedRoute>} />
+        <Route path="/reservations" element={<ProtectedRoute><ReservationList /></ProtectedRoute>} />
+        <Route path="/favorites" element={<ProtectedRoute><Favorites /></ProtectedRoute>} />
+        <Route path="/me" element={<ProtectedRoute><MyPage /></ProtectedRoute>} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       <LoadingOverlay />

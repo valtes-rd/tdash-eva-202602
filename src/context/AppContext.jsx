@@ -24,13 +24,13 @@ const loadFromStorage = () => {
     const reservations = localStorage.getItem(STORAGE_KEYS.RESERVATIONS);
     const favorites = localStorage.getItem(STORAGE_KEYS.FAVORITES);
     return {
-      user: user ? JSON.parse(user) : initialUsers[0], // デフォルトユーザーを設定
+      user: user ? JSON.parse(user) : null, // ログイン前はnull
       reservations: reservations ? JSON.parse(reservations) : initialReservations,
       favorites: favorites ? JSON.parse(favorites) : initialFavorites,
     };
   } catch {
     return {
-      user: initialUsers[0],
+      user: null,
       reservations: initialReservations,
       favorites: initialFavorites,
     };
