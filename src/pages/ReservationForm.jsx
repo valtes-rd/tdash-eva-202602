@@ -70,7 +70,7 @@ const ReservationForm = () => {
     setIsLoading(false);
   };
 
-  const openConfirm = (e) => {
+  const openConfirm = async (e) => {
     e.preventDefault();
     setError('');
     if (!date || !menu || !time) {
@@ -81,6 +81,10 @@ const ReservationForm = () => {
       setError('選択した日付は予約できません');
       return;
     }
+    // 予約確認ボタン押下時はloading表示
+    setIsLoading(true);
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    setIsLoading(false);
     setShowConfirm(true);
   };
 
