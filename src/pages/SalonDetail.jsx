@@ -22,7 +22,7 @@ const SalonDetail = () => {
   }, []);
 
   const salon = salons.find((s) => s.id === id);
-  usePageTitle(salon ? `${salon.name} - サロン詳細` : 'サロン詳細');
+  usePageTitle(salon ? salon.name : 'サロン詳細');
   const isFavorite = favorites.includes(id);
 
   const upcoming = useMemo(() => {
