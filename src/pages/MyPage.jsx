@@ -1,7 +1,9 @@
 import React from 'react';
 import { useAppContext } from '../context/AppContext';
+import usePageTitle from '../hooks/usePageTitle';
 
 const MyPage = () => {
+  usePageTitle('マイページ');
   const { user } = useAppContext();
 
   if (!user) {

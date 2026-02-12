@@ -1,6 +1,12 @@
 const today = new Date();
 
-const formatDate = (date) => date.toISOString().split('T')[0];
+// ローカルタイムでYYYY-MM-DD形式に変換（タイムゾーン問題を回避）
+const formatDate = (date) => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
 
 export const initialUsers = [
   {
@@ -47,7 +53,7 @@ export const initialSalons = [
     category: 'ヘアサロン',
     categories: ['ヘアサロン'],
     description: '表参道にある上質なヘアサロン。毎週月曜日は定休日です。',
-    image: 'https://placehold.co/400x250?text=Agu+Hair',
+    image: './store_screen/agu_hair.png',
     menus: ['カット', 'カット＋カラー', 'カット＋トリートメント'],
     timeSlots: ['10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00'],
     address: '東京都渋谷区神宮前1-1-1',
@@ -60,7 +66,7 @@ export const initialSalons = [
     category: 'ヘアサロン',
     categories: ['ヘアサロン', 'ネイルサロン', 'エステサロン'],
     description: '複合型ビューティーサロン。毎週火曜日11:00のみ空いています。',
-    image: 'https://placehold.co/400x250?text=Plage',
+    image: './store_screen/plage.png',
     menus: ['カット', 'ネイル', 'フェイシャル'],
     timeSlots: ['11:00'], // Tuesday 11:00 only
     address: '東京都中央区銀座2-2-2',
@@ -73,7 +79,7 @@ export const initialSalons = [
     category: 'ヘアサロン',
     categories: ['ヘアサロン', 'ネイルサロン'],
     description: 'トータルビューティーサロン。毎月1日は予約でいっぱいです。',
-    image: 'https://placehold.co/400x250?text=EARTH',
+    image: './store_screen/earth.png',
     menus: ['ヘアカット', 'ネイルケア'],
     timeSlots: ['10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00'],
     address: '東京都港区北青山3-3-3',
@@ -86,7 +92,7 @@ export const initialSalons = [
     category: 'ヘアサロン',
     categories: ['ヘアサロン', 'ネイルサロン'],
     description: 'スタイリッシュなサロン。ヘアとネイルの同時施術も可能。',
-    image: 'https://placehold.co/400x250?text=LIM',
+    image: './store_screen/LIM.png',
     menus: ['カット', 'カラー', 'ネイル'],
     timeSlots: ['10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00'],
     address: '東京都新宿区西新宿4-4-4',
@@ -98,7 +104,7 @@ export const initialSalons = [
     category: 'ヘアサロン',
     categories: ['ヘアサロン', 'ネイルサロン', 'エステサロン'],
     description: 'トータルビューティーサロン。11:00, 12:00, 13:00のみ空きがあります。',
-    image: 'https://placehold.co/400x250?text=AIR',
+    image: './store_screen/air.png',
     menus: ['ヘア', 'ネイル', 'エステ'],
     timeSlots: ['11:00', '12:00', '13:00'],
     address: '神奈川県横浜市西区1-1-1',
@@ -110,7 +116,7 @@ export const initialSalons = [
     category: 'ネイルサロン',
     categories: ['ネイルサロン'],
     description: 'ネイル専門サロン。アートデザインが得意です。',
-    image: 'https://placehold.co/400x250?text=fizelle',
+    image: './store_screen/fizelle.png',
     menus: ['ワンカラー', 'フレンチ', 'アートデザイン'],
     timeSlots: ['10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00'],
     address: '東京都世田谷区1-1-1',
@@ -122,7 +128,7 @@ export const initialSalons = [
     category: 'ヘアサロン',
     categories: ['ヘアサロン'],
     description: 'メンズカット専門店。スピーディーな施術が特徴。',
-    image: 'https://placehold.co/400x250?text=Cut+Comz',
+    image: './store_screen/cutcomz.png',
     menus: ['カット', 'シェービング'],
     timeSlots: ['10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00'],
     address: '東京都豊島区池袋1-1-1',
@@ -134,7 +140,7 @@ export const initialSalons = [
     category: 'ヘアサロン',
     categories: ['ヘアサロン', 'エステサロン'],
     description: 'ヘアとエステの複合サロン。リラックス空間で癒しを提供。',
-    image: 'https://placehold.co/400x250?text=TAYA',
+    image: './store_screen/taya.png',
     menus: ['ヘアケア', 'ヘッドスパ', 'フェイシャル'],
     timeSlots: ['10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00'],
     address: '東京都品川区大崎1-1-1',

@@ -1,8 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAppContext } from '../context/AppContext';
+import usePageTitle from '../hooks/usePageTitle';
 
 const Favorites = () => {
+  usePageTitle('お気に入り一覧');
   const { favorites, salons, toggleFavorite } = useAppContext();
   const favoriteSalons = salons.filter((s) => favorites.includes(s.id));
 

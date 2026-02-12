@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppContext } from '../context/AppContext';
+import usePageTitle from '../hooks/usePageTitle';
 
 const Login = () => {
+  usePageTitle('ログイン');
   const { login, isAuthenticated } = useAppContext();
   const navigate = useNavigate();
-  const [email, setEmail] = useState('test@example.com');
-  const [password, setPassword] = useState('password');
+  const [email, setEmail] = useState('alice@example.com');
+  const [password, setPassword] = useState('alicepassyamada');
   const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
