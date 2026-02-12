@@ -160,22 +160,22 @@ export const AppProvider = ({ children }) => {
       return salonId;
     });
 
-  const addReservation = async ({ salonId, date, time, menu, userName }) =>
-    withLatency(() => {
-      const reservationNumber = generateReservationNumber();
-      const newReservation = {
-        id: crypto.randomUUID(),
-        reservationNumber,
-        salonId,
-        userEmail: state.user?.email ?? initialUsers[0].email,
-        userName: userName || state.user?.name || '',
-        date,
-        time,
-        menu,
-      };
-      dispatch({ type: 'ADD_RESERVATION', payload: newReservation });
-      return newReservation;
-    });
+  const addReservation = async ({ salonId, date, time, menu, userName }) => {
+    // 予約確定はloading表示なしで即座に実行
+    const reservationNumber = generateReservationNumber();
+    const newReservation = {
+      id: crypto.randomUUID(),
+      reservationNumber,
+      salonId,
+      userEmail: state.user?.email ?? initialUsers[0].email,
+      userName: userName || state.user?.name || '',
+      date,
+      time,
+      menu,
+    };
+    dispatch({ type: 'ADD_RESERVATION', payload: newReservation });
+    return newReservation;
+  };
 
   const cancelReservation = async (reservationId) =>
     withLatency(() => {
