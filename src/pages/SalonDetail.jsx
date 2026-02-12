@@ -50,9 +50,27 @@ const SalonDetail = () => {
     }
   };
 
+  // 直近の予約可能日を取得
+  const nearestAvailableDate = useMemo(() => {
+    if (!salon) return null;
+    const today = new Date();
+    const todayStr = formatDate(today);
+    // 今日から14日間をチェック
+    for (let i = 0; i < 14; i++) {
+      const date = new Date(today.getFullYear(), today.getMonth(), today.getDate() + i);
+      const dateStr = formatDate(date);
+      if (dateStr >= todayStr && isSlotAvailable(salon, dateStr)) {
+        return dateStr;
+      }
+    }
+    return null;
+  }, [formatDate, isSlotAvailable, salon]);
+
   const handleReserve = () => {
-    if (selectedDate) {
-      navigate(`/reserve/${id}?date=${selectedDate}`);
+    // 選択日があればその日、なければ直近の予約可能日で予約画面へ
+    const dateToUse = selectedDate || nearestAvailableDate;
+    if (dateToUse) {
+      navigate(`/reserve/${id}?date=${dateToUse}`);
     }
   };
 
@@ -178,7 +196,7 @@ const SalonDetail = () => {
             className="button-primary"
             type="button"
             onClick={handleReserve}
-            disabled={!selectedDate}
+            disabled={!selectedDate && !nearestAvailableDate}
             style={{ width: '100%' }}
           >
             このサロンを予約する

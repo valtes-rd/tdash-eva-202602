@@ -83,7 +83,7 @@ const ReservationForm = () => {
     }
     // 予約確認ボタン押下時はloading表示
     setIsLoading(true);
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 4000));
     setIsLoading(false);
     setShowConfirm(true);
   };
