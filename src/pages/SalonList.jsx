@@ -46,7 +46,7 @@ const SalonList = () => {
   usePageTitle('サロン一覧');
   const { salons, isSlotAvailable, formatDate, favorites, toggleFavorite } = useAppContext();
   const navigate = useNavigate();
-  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([...filterCategories]);
   const [selectedDate, setSelectedDate] = useState(formatDate(new Date()));
   const [pendingDate, setPendingDate] = useState(toYYYYMMDD(formatDate(new Date())));
   const [isLoading, setIsLoading] = useState(false);
@@ -54,6 +54,8 @@ const SalonList = () => {
   const filteredSalons = useMemo(
     () =>
       salons.filter((salon) => {
+        // 全カテゴリチェックON = すべて表示
+        if (selectedCategories.length === filterCategories.length) return true;
         // チェックなし = すべて表示
         if (selectedCategories.length === 0) return true;
         // AND条件: 選択されたすべてのカテゴリを持つサロンのみ表示
